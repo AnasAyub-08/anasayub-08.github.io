@@ -1,76 +1,405 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Anas Ayub | Portfolio</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portfolio — Your Name</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    /* =============================
+       THEME — TEAL / CYAN 
+       ============================= */
+    :root {
+      --bg: #0f1f24;              /* deep teal-navy */
+      --bg-2: #11262c;            /* slightly lighter */
+      --surface: #15323a;         /* cards */
+      --elevated: #19414b;        /* elevated cards */
+
+      --primary: #2dd4bf;         /* teal */
+      --primary-600: #12b3a4;     /* richer teal */
+      --accent: #66e0ff;          /* cyan */
+
+      --text: #ecf9f9;            /* near-white */
+      --muted: #b4d0d1;           /* muted text */
+      --line: #2a4b53;            /* borders */
+
+      --radius: 16px;
+      --radius-lg: 22px;
+      --shadow: 0 12px 30px rgba(0,0,0,.35);
+      --shadow-soft: 0 8px 20px rgba(0,0,0,.22);
+      --transition: 260ms cubic-bezier(.22,.61,.36,1);
+      --container: 1200px;
+
+      /* Projects flexibility tokens */
+      --card-min: 280px;
+      --card-min-lg: 320px;
+    }
+
+    /* ========== Base / Reset ========== */
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; color:var(--text); background: radial-gradient(80rem 40rem at 10% -10%, rgba(102,224,255,.10), transparent 55%),
+                                         radial-gradient(65rem 30rem at 110% -10%, rgba(45,212,191,.12), transparent 55%),
+                                         linear-gradient(180deg, var(--bg), var(--bg-2));
+      font-family:"Plus Jakarta Sans", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; 
+      line-height:1.6; letter-spacing:.2px;
+    }
+    h1,h2,h3{font-family:"Space Grotesk", "Plus Jakarta Sans", sans-serif; margin:0 0 12px; line-height:1.2}
+    h1{font-size:clamp(36px, 5vw, 56px)}
+    h2{font-size:clamp(26px, 3.2vw, 36px)}
+    p{margin:0 0 14px}
+    a{color:inherit; text-decoration:none}
+    img{max-width:100%; display:block}
+    .container{max-width:var(--container); margin:0 auto; padding:0 20px}
+
+    /* ======= Decorative background blobs ======= */
+    .bg-ornaments::before,
+    .bg-ornaments::after{
+      content:""; position:fixed; inset:auto auto 10% -6%; width:40rem; height:40rem; z-index:-1; filter:blur(60px); pointer-events:none;
+      background: radial-gradient(circle at 30% 30%, rgba(102,224,255,.35), transparent 60%),
+                  radial-gradient(circle at 70% 70%, rgba(45,212,191,.35), transparent 60%);
+      opacity:.6; transform:rotate(15deg);
+    }
+    .bg-ornaments::after{ inset:auto -10% 60% auto; transform:rotate(-20deg); }
+
+    /* ========== Scroll progress bar ========== */
+    .progress{position:fixed; inset:0 0 auto 0; height:3px; background:linear-gradient(90deg, var(--primary), var(--accent)); transform-origin:0 50%; transform:scaleX(0); z-index:100}
+
+    /* ========== Header / Nav ========== */
+    header{position:sticky; top:0; z-index:50; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      background: linear-gradient(180deg, rgba(21,50,58,.75), rgba(21,50,58,.35)); border-bottom:1px solid var(--line)}
+    .nav{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
+    .brand{display:flex; align-items:center; gap:10px;}
+    .brand-badge{width:34px; height:34px; border-radius:12px; background: conic-gradient(from 210deg, var(--primary), var(--accent), var(--primary)); box-shadow:0 0 0 6px rgba(102,224,255,.08)}
+    .brand b{font-weight:700; letter-spacing:.3px}
+
+    .menu{display:flex; gap:18px; list-style:none; padding:0; margin:0}
+    .menu a{color:var(--muted); padding:8px 12px; border-radius:10px; transition:var(--transition);}
+    .menu a:hover{color:var(--text); background:rgba(102,224,255,.10)}
+
+    .btn{display:inline-flex; align-items:center; gap:10px; padding:10px 16px; border-radius:999px; border:1px solid var(--line); background:#0000; color:var(--text); transition:var(--transition)}
+    .btn:hover{transform:translateY(-1px); background:rgba(45,212,191,.10); color:white;}
+    .btn-primary{border:none; background:linear-gradient(180deg, var(--primary), var(--primary-600)); color:#062225; box-shadow:0 6px 20px rgba(45,212,191,.28)}
+
+    /* ========== Hero ========== */
+    .hero{padding:84px 0 56px}
+    .hero-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:40px; align-items:center}
+    .kicker{color:var(--muted); letter-spacing:.22em; text-transform:uppercase; font-size:12px}
+    .headline{background:linear-gradient(180deg, #fff, #bdf4ef 55%, #9ce8ff); -webkit-background-clip:text; background-clip:text; color:transparent}
+    .subhead{color:var(--muted); max-width:60ch}
+    .cta-row{display:flex; gap:12px; flex-wrap:wrap; margin-top:18px}
+
+    .hero-card{position:relative; border-radius:var(--radius-lg); background:linear-gradient(180deg, rgba(21,50,58,.6), rgba(25,65,75,.7)); border:1px solid var(--line); box-shadow:var(--shadow); padding:20px; overflow:hidden}
+    .hero-card::after{content:""; position:absolute; inset:-20% -40% auto auto; width:24rem; height:24rem; filter:blur(40px); background: radial-gradient(circle at 60% 40%, rgba(102,224,255,.35), transparent 60%), radial-gradient(circle at 30% 70%, rgba(45,212,191,.35), transparent 60%); opacity:.55}
+    .ring{--sz: 180px; width:var(--sz); height:var(--sz); border-radius:50%; margin:10px auto; background:conic-gradient(from 120deg, var(--primary), var(--accent), var(--primary)); mask:radial-gradient(circle 64px, transparent 63px, #000 64px); animation:spin 10s linear infinite}
+    .statgrid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; text-align:center}
+    .stat .num{font:700 28px "Space Grotesk"}
+    .stat .label{color:var(--muted); font-size:12px}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* ========== Sections ========== */
+    section{padding:70px 0}
+    .section-head{display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:26px}
+    .section-head p{color:var(--muted)}
+
+    /* ========== Projects (FLEXIBLE) ========== */
+    .projects{ 
+      display:grid; 
+      grid-template-columns:repeat(auto-fit, minmax(var(--card-min), 1fr));
+      gap:18px; 
+      grid-auto-flow:dense;
+    }
+    .project{ 
+      position:relative; 
+      border:1px solid var(--line); 
+      background:linear-gradient(180deg, var(--surface), var(--elevated)); 
+      border-radius:20px; 
+      overflow:hidden; 
+      box-shadow:var(--shadow-soft); 
+      transition:transform var(--transition), box-shadow var(--transition), border-color var(--transition)
+    }
+    .project:hover{transform:translateY(-6px) scale(1.01); box-shadow:var(--shadow); border-color:rgba(102,224,255,.5)}
+    .project::after{content:""; position:absolute; inset:0; pointer-events:none; background:radial-gradient(80% 80% at 10% 0%, rgba(102,224,255,.12), transparent 60%); opacity:0; transition:opacity var(--transition)}
+    .project:hover::after{opacity:.6}
+
+    .project .thumb{aspect-ratio: 4/3; background: linear-gradient(135deg, rgba(102,224,255,.14), rgba(45,212,191,.10)); display:grid; place-items:center; color:var(--muted); font-size:14px}
+    .project .meta{padding:16px}
+    .chip{display:inline-block; padding:4px 10px; border-radius:999px; font-size:12px; color:#073438; background:linear-gradient(180deg, var(--primary), var(--accent));}
+
+    /* Optional wider feature cards */
+    .project.wide{grid-column:span 2}
+
+    /* Container Query to adapt card internals based on card width */
+    @supports (container-type: inline-size){
+      .project{container: card / inline-size}
+      @container card (min-width: 420px){
+        .project .thumb{aspect-ratio:16/9}
+      }
+      @container card (min-width: 560px){
+        .project .meta{padding:20px}
+      }
+    }
+
+    /* Make cards slightly larger on big screens */
+    @media (min-width: 1200px){
+      .projects{grid-template-columns:repeat(auto-fit, minmax(var(--card-min-lg), 1fr))}
+    }
+
+    /* Mobile: turn into a snappy horizontal scroller */
+    @media (max-width: 640px){
+      .projects{
+        grid-auto-flow: column;
+        grid-auto-columns: 85%;
+        grid-template-columns: none;
+        overflow-x: auto; padding-bottom: 10px;
+        scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+      }
+      .project{scroll-snap-align: start}
+      .project.wide{grid-column:auto}
+    }
+
+    /* ========== About / Timeline ========== */
+    .about{display:grid; grid-template-columns:.9fr 1.1fr; gap:28px}
+    .about .card{border:1px solid var(--line); border-radius:var(--radius); background:linear-gradient(180deg, rgba(25,65,75,.6), rgba(25,65,75,.35)); padding:20px}
+    .timeline{position:relative; padding-left:28px}
+    .timeline::before{content:""; position:absolute; left:10px; top:0; bottom:0; width:2px; background:linear-gradient(var(--accent), var(--primary))}
+    .step{position:relative; margin:16px 0; padding:12px 14px; border-radius:14px; background:rgba(21,50,58,.45); border:1px solid var(--line)}
+    .step::before{content:""; position:absolute; left:-19px; top:14px; width:10px; height:10px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 4px rgba(102,224,255,.18)}
+    .step small{color:var(--muted)}
+
+    /* ========== Contact ========== */
+    .contact-wrap{border:1px solid var(--line); border-radius:22px; background:linear-gradient(180deg, rgba(25,65,75,.55), rgba(25,65,75,.35)); padding:22px; max-width:720px; margin:0 auto}
+    .form{display:grid; gap:14px}
+    .input{padding:12px 14px; border-radius:12px; border:1px solid var(--line); background:#0e2126; color:var(--text)}
+    .input:focus{outline:none; border-color:var(--primary); box-shadow:0 0 0 4px rgba(45,212,191,.18)}
+    textarea.input{min-height:120px; resize:vertical}
+
+    /* ========== Footer ========== */
+    footer{border-top:1px solid var(--line); padding:28px 0; color:var(--muted)}
+
+    /* ========== Reveal on scroll ========== */
+    .reveal{opacity:0; transform:translateY(12px); transition:600ms cubic-bezier(.22,.61,.36,1)}
+    .reveal.show{opacity:1; transform:none}
+
+    /* ========== Responsive ========== */
+    @media (max-width: 980px){
+      .hero-grid{grid-template-columns:1fr}
+      .about{grid-template-columns:1fr}
+    }
+    @media (max-width: 640px){
+      .menu{display:none}
+      .brand b{font-size:16px}
+    }
+
+    #contact .section-head {
+        display: block;
+        text-align: center;
+        margin-bottom: 26px;
+    }
+    #contact .section-head p {
+        margin-top: 8px; 
+        color: var(--muted);
+    }
+
+  </style>
 </head>
-<body>
-  <!-- Header / Hero Section -->
+<body class="bg-ornaments">
+  <div class="progress" id="progress"></div>
   <header>
-    <div class="container">
-      <h1>Hello, I'm <span class="highlight">Anas Ayub</span></h1>
-      <p>Python Developer | Cybersecurity Student | Web Enthusiast</p>
-      <a href="#projects" class="btn">View My Work</a>
+    <div class="container nav">
+      <div class="brand">
+        <span class="brand-badge" aria-hidden="true"></span>
+        <b>Anas Ayub</b>
+      </div>
+      <nav>
+        <ul class="menu">
+          <li><a href="#work">Work</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#resume-link">Resume</a></li>
+        </ul>
+      </nav>
+
+      <a class="btn btn-primary" href="#contact">Hire Me</a>
     </div>
   </header>
 
-  <!-- About Section -->
-  <section id="about">
-    <h2>About Me</h2>
-    <p>
-      I’m pursuing a Bachelor's in Cybersecurity and love building tools with Python, Flask web apps, 
-      and WordPress websites. My goal is to combine programming and cybersecurity skills to solve real-world problems.
-    </p>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="reveal">
+        <div class="kicker">Designer • Developer</div>
+        <h2 class="headline">I turn concepts into functional, polished projects for people who need things done.</h1>
+        <p class="subhead">I enjoy building with Python and turning ideas into interactive projects that people can actually use. Along the way, I’ve picked up a knack for creating clean WordPress sites and crafting designs with HTML/CSS that feel simple and modern. Right now, I’m also diving deeper into my true passion — cyber security — a field I’m excited to grow in while continuing to create practical and creative solutions for clients.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#work">See my work</a>
+          <a class="btn" href="#about">About</a>
+        </div>
+      </div>
+      <aside class="hero-card reveal">
+        <div class="ring" aria-hidden="true"></div>
+        <div class="statgrid">
+          <div class="stat"><div class="num">5+</div><div class="label">Projects</div></div>
+          <div class="stat"><div class="num">2yr</div><div class="label">Experience</div></div>
+          <div class="stat"><div class="num">100%</div><div class="label">Satisfaction</div></div>
+        </div>
+      </aside>
+    </div>
   </section>
 
-  <!-- Projects Section -->
-  <section id="projects">
-    <h2>Projects</h2>
-    <div class="projects-grid">
-      <div class="card">
-        <h3>Flask Notes App</h3>
-        <p>A multi-user notes app with login authentication.</p>
-        <a href="https://github.com/AnasAyub-08/flask-notes-app" target="_blank">GitHub</a>
+  <!-- Projects -->
+  <section id="work">
+    <div class="container">
+      <div class="section-head reveal" style="margin-top:50px">
+        <h2>Things I’ve Built</h2>
+        <p>A mix of projects, experiments, and real-world work I’ve done.</p>
       </div>
-
-      <div class="card">
-        <h3>Scientific Calculator</h3>
-        <p>A Python-based calculator with advanced functions.</p>
-        <a href="https://github.com/AnasAyub-08/scientific-calculator" target="_blank">GitHub</a>
-      </div>
-
-      <div class="card">
-        <h3>WordPress Portfolio</h3>
-        <p>Custom portfolio website built with WordPress for a client.</p>
-        <a href="#">Live Demo</a>
+      <div class="projects">
+        <a href="http://nodepad-app-fvgchqd3gyg8gud0.canadacentral-01.azurewebsites.net" target="_blank" rel="noopener noreferrer">
+            <article class="project span-6 reveal">
+            <div class="thumb"><img src="assets/images/notesapp.png" alt="notesapp"></div>
+            <div class="meta">
+                <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+                <h3 style="margin:0; font-size:20px">Notes App</h3>
+                <span class="chip">Flask • Python</span>
+                </div>
+                <p style="color:var(--muted); margin-top:6px">A notes app where multiple users can create, and manage notes in real time.</p>
+            </div>
+            </article>
+        </a>
+        <article class="project reveal">
+          <div class="thumb">Cover image</div>
+          <div class="meta">
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+              <h3 style="margin:0; font-size:20px">Work in progress</h3>
+              <span class="chip">WordPress</span>
+            </div>
+            <p style="color:var(--muted); margin-top:6px">Description - To be added</p>
+          </div>
+        </article>
+        <article class="project reveal tall">
+          <div class="thumb">Cover image</div>
+          <div class="meta">
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+              <h3 style="margin:0; font-size:20px">Work in progress</h3>
+              <span class="chip">HTML • CSS</span>
+            </div>
+            <p style="color:var(--muted); margin-top:6px">Description - To be added</p>
+          </div>
+        </article>
+        <article class="project span-6 reveal">
+          <div class="thumb">Cover image</div>
+          <div class="meta">
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+              <h3 style="margin:0; font-size:20px">Work in progress</h3>
+              <span class="chip">Python</span>
+            </div>
+            <p style="color:var(--muted); margin-top:6px">Description - To be added</p>
+          </div>
+        </article>
+        <article class="project reveal">
+          <div class="thumb">Cover image</div>
+          <div class="meta">
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+              <h3 style="margin:0; font-size:20px">Work in progress</h3>
+              <span class="chip">Linux</span>
+            </div>
+            <p style="color:var(--muted); margin-top:6px">Description - To be added</p>
+          </div>
+        </article>
+        <article class="project reveal">
+          <div class="thumb">Cover image</div>
+          <div class="meta">
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+              <h3 style="margin:0; font-size:20px">Work in progress</h3>
+              <span class="chip">VirtualBox</span>
+            </div>
+            <p style="color:var(--muted); margin-top:6px">Description - To be added</p>
+          </div>
+        </article>
       </div>
     </div>
   </section>
 
-  <!-- Skills Section -->
-  <section id="skills">
-    <h2>Skills</h2>
-    <ul>
-      <li>Python (Flask, Automation)</li>
-      <li>Web Dev (HTML, CSS, JS, WordPress)</li>
-      <li>Cybersecurity (Linux, Nmap, Wireshark, Kali)</li>
-      <li>Databases (SQL, SQLite)</li>
-    </ul>
+  <!-- About -->
+  <section id="about">
+    <div class="container about">
+      <div class="card reveal">
+        <h2>About Me</h2>
+        <p>
+          Hi — I’m <strong>Anas Ayub</strong>, a developer who helps individuals and small teams bring their ideas online. I enjoy working with Python to create interactive projects and also design modern, easy-to-manage websites using WordPress and HTML/CSS. My focus is always on delivering solutions that are clean, practical, and built with long-term usability in mind. I’m also currently pursuing studies in Cyber Security, an area I’m passionate about and exploring further alongside my development work.
+        </p>
+
+        <p style="margin-top:10px; color:var(--muted);">
+          <strong>Location:</strong> Karachi, Pakistan
+        </p>
+        <p style="margin-top:8px;">
+          <strong>Email: </strong><a href="mailto:anas.ayub00@gmail.com">anas.ayub00@gmail.com</a>
+        </p>
+        <p><strong>Birthday: </strong>08/08/2003</p>
+        <p style="margin-top:10px; color:var(--muted)"><strong>Top Skills:</strong> WordPress · Flask · Python</p>
+      </div>
+      <div class="reveal">
+        <h2 style="margin-bottom:8px">Timeline</h2>
+        <div class="timeline">
+          <div class="step"><b>June 2024 — Aug 2024 — Web Developer (Intern) at Haque Tech</b><br><small>Worked on WordPress-based projects: modifying themes, configuring plugins, ensuring responsive design across devices; used AI tools for SEO-friendly content and supported content strategy research.</small></div>
+          <div class="step"><b>March 2025 — March 2029 — Bachelor's degree, Cyber Security — SSUET</b><br><small>Sir Syed University of Engineering & Technology (SSUET)</small></div>
+          <div class="step"><b>Freelancing</b><br><small>Providing clients with custom WordPress sites, Flask apps, and Python scripts.</small></div>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <!-- Contact Section -->
+  <!-- Contact -->
   <section id="contact">
-    <h2>Contact</h2>
-    <p>Email: <a href="mailto:your.email@example.com">your.email@example.com</a></p>
-    <p>GitHub: <a href="https://github.com/AnasAyub-08" target="_blank">github.com/AnasAyub-08</a></p>
-    <p>LinkedIn: <a href="https://linkedin.com/in/yourusername" target="_blank">linkedin.com/in/yourusername</a></p>
+    <div class="container">
+      <div class="section-head reveal">
+        <h2>Let’s work together</h2>
+        <p>Tell me about your project</p>
+      </div>
+      <div class="contact-wrap reveal">
+        <form class="form" action="https://formspree.io/f/xanbrlqz" method="POST">
+            <input class="input" type="text" name="name" placeholder="Your name" required>
+            <input class="input" type="email" name="email" placeholder="Email" required>
+            <textarea class="input" name="message" placeholder="Project details" required></textarea>
+            <button class="btn btn-primary" type="submit">Send Message</button>
+        </form>
+      </div>
+    </div>
   </section>
 
-  <!-- Footer -->
   <footer>
-    <p>&copy; 2025 Anas Ayub</p>
+    <div class="container" style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+      <span>© <span id="year"></span> Anas Ayub</span>
+      <div style="display:flex; gap:12px;">
+        <a href="https://github.com/AnasAyub-08" target="_blank" rel="noopener" class="btn" title="GitHub">GitHub</a>
+        <a href="https://www.linkedin.com/in/anas-ayub-270a0324a" target="_blank" rel="noopener" class="btn" title="LinkedIn">LinkedIn</a>
+      </div>
+    </div>
   </footer>
+
+  <script>
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Scroll progress bar
+    const progress = document.getElementById('progress');
+    const onScroll = () => {
+      const h = document.documentElement;
+      const ratio = h.scrollTop / (h.scrollHeight - h.clientHeight);
+      progress.style.transform = `scaleX(${ratio})`;
+    };
+    document.addEventListener('scroll', onScroll, {passive:true});
+    onScroll();
+
+    // Reveal on view
+    const observer = new IntersectionObserver((entries)=>{
+      entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('show'); observer.unobserve(e.target);} });
+    }, {threshold:.14});
+    document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+  </script>
 </body>
 </html>
