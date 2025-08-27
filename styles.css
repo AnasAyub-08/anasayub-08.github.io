@@ -60,7 +60,7 @@ img{max-width:100%; display:block}
 .progress{position:fixed; inset:0 0 auto 0; height:3px; background:linear-gradient(90deg, var(--primary), var(--accent)); transform-origin:0 50%; transform:scaleX(0); z-index:100}
 
 /* ========== Header / Nav ========== */
-header{position:sticky; top:0; z-index:50; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+header{position:sticky; top:0; z-index:50; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(10px);
     background: linear-gradient(180deg, rgba(21,50,58,.75), rgba(21,50,58,.35)); border-bottom:1px solid var(--line)}
 .nav{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
 .brand{display:flex; align-items:center; gap:10px;}
@@ -172,7 +172,7 @@ textarea.input{min-height:120px; resize:vertical}
 footer{border-top:1px solid var(--line); padding:28px 0; color:var(--muted)}
 
 /* ========== Reveal on scroll ========== */
-.reveal{opacity:0; transform:translateY(12px); transition:600ms cubic-bezier(.22,.61,.36,1)}
+.reveal{opacity:0; transform:translateY(100px); transition:600ms cubic-bezier(.22,.61,.36,1)}
 .reveal.show{opacity:1; transform:none}
 
 /* ========== Responsive ========== */
